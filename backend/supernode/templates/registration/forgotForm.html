@@ -1,0 +1,134 @@
+<html>
+<head>
+    <title>Reset Password</title>
+    <script src="https://kit.fontawesome.com/3b5efb1f3c.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#confirmpasswordfield").on("keyup", function(){
+                var newPassword = $("#newpasswordfield").val();
+                var confirmPassword = $("#confirmpasswordfield").val();
+                if(newPassword != confirmPassword){
+                    $("#confirmpasswordfield").css("border-color", "red");
+                }else{
+                    $("#confirmpasswordfield").css("border-color", "green");
+                }
+            });
+        });
+    </script>
+<style>
+    body{
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
+    .resetPage{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f2f2f2;
+    }
+    .resetPage div{
+        text-align: center;
+    }
+    .heading{
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+    .resetPasswordForm{
+        width: 300px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .resetPasswordForm input{
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+    .resetPasswordForm button{
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: none;
+        border-radius: 5px;
+        background-color: #007bff;
+        color: #fff;
+        cursor: pointer;
+    }
+    .resetPasswordForm button:hover{
+        background-color: #0056b3;
+    }
+    .resetPasswordForm input:focus{
+        outline: none;
+    }
+    .resetPasswordForm input::placeholder{
+        color: #ddd;
+    }
+    .resetPasswordForm input:focus::placeholder{
+        color: transparent;
+    }
+    .resetPasswordForm button:focus{
+        outline: none;
+    }
+    .resetPasswordForm button:active{
+        transform: scale(0.95);
+    }
+    .resetPasswordForm input[type="text"]{
+        transition: border-color 0.5s;
+    }
+    .resetPasswordForm input[type="text"]::placeholder{
+        color: #ddd;
+    }
+    .resetPasswordForm input[type="text"]:focus::placeholder{
+        color: transparent;
+    }
+    .resetPasswordForm input[type="text"]:focus{
+        outline: none;
+    }
+    .resetPasswordForm button{
+        transition: background-color 0.5s;
+    }
+</style>
+</head>
+<body>
+    <div class="resetPage">
+        <div><h3 class="heading">Reset Password</h3>
+        <div class="resetPasswordForm">
+            <form method="post" accept-charset="utf-8" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="password" id="newpasswordfield" name="newPassword" placeholder="New Password" required>
+                <input type="password" id="confirmpasswordfield" name="confirmPassword" placeholder="Confirm Password" required>
+                <button id="submitButton" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</body>
+<script>
+   let formSubmitButton = document.getElementById("submitButton");
+   formSubmitButton.addEventListener("click",(e)=>{
+    let newPassword = document.getElementById("newpasswordfield").value;
+    let confirmPassword = document.getElementById("confirmpasswordfield").value;
+    if(confirmPassword!==newPassword){
+        alert("password doesn't match please input same password in both fields")
+    } else{
+        // async () => {
+        //    const response = await fetch('',{
+        //        method: 'POST',
+        //        headers: {
+        //            'Content-Type': 'application/json'
+        //        }
+            
+        //    })
+            console.log("function call hereeeeeeeeeeeeeeeeeeeeeeeeeeeee")
+        }
+        console.log("hereeeeeeeeeeeeeeeeeeeeeeeeeeeee")
+    }
+
+   })
+</script>
+</html>

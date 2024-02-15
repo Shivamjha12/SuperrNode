@@ -1,0 +1,2 @@
+backend/supernode/.env
+backend/supernode/db.sqlite3
