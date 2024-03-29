@@ -17,7 +17,8 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from supernode import settings
 from django.utils import timezone
 from django.utils.http import base36_to_int
-
+from Link.models import LinkGroup
+from UserProfile.models import UserProfile
 
 def extract_timestamp_from_token(token):
     try:
@@ -41,7 +42,22 @@ def extract_timestamp_from_token(token):
 
 
 
-    
+def get_user_from_token(JWTUser):
+    token = None
+    if JWTUser!='None':
+        token = JWTUser
+    # request.COOKIES.get('jwt')
+    print(type(token),"typeeeeeeeeeeeeeeeeeeeeeeeeee")
+    print(token,"Here is the token, -----------sssssssssssss-----s-s--s-s-sssssssss")
+    if not token:
+        return ('Unauthenticated please login')
+    try:
+        payload = jwt.decode(token,'secret',algorithms=['HS256'])
+    except jwt.ExpiredSignatureError:
+        return ('Unauthenticated please login')
+    user = User.objects.filter(id=payload['id']).first()
+    return user
+
 def password_reset_done_page(request):
     return render(request,'registration/passwordResetDone.html')
 
@@ -70,6 +86,10 @@ class register(APIView):
         USER = User.objects.filter(email=userEmail).first()
         USER.is_active = False
         USER.save()
+        profile = UserProfile.objects.create(user=USER)
+        profile.save()
+        linklistobj = LinkGroup.objects.create(user=USER,name="Home",description=USER.name)
+        linklistobj.save()
         #1 we need to generate a token and mail content for the user
         current_site = get_current_site(request)
         mail_subject = "Activate your account"
