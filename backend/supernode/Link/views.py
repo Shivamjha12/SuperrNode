@@ -365,6 +365,7 @@ class LinklistAddLinkView(APIView):
         if link_id==None or linklist_id==None:
             return Response({"error":"link_id or linklist_id is not provided"},status=status.HTTP_400_BAD_REQUEST)
         link = Link.objects.get(uuid=link_id)
+        link.is_in_linkGroup = True
         linklist = LinkGroup.objects.get(link_group_id=linklist_id)
         links_in_linklist = linklist.links.all()
         print("[[[[[[[[[[]]]]]]]]]]",links_in_linklist," the type is-->",type(links_in_linklist))

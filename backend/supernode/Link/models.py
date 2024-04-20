@@ -10,6 +10,7 @@ class Link(models.Model):
     description  = models.CharField(max_length=70)
     url          = models.URLField()
     no_of_clicks = models.IntegerField(default=0)
+    is_in_linkGroup = models.BooleanField(default=False)
     uniqueName   = models.CharField(max_length=100, null=True, blank=True, unique=True)
         
     def __str__(self):
