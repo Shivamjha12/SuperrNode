@@ -65,6 +65,9 @@ class CreateEditDeleteProfileView(APIView):
         intrests = request.data.get('intrests',None)
         bio      = request.data.get('bio',None)
         userInstance = get_user_from_token(jwt)
+        image_url = None
+        if image:
+            image_url = upload_image_to_s3(image)
         if username == None:
             return Response({"error":"Username not provided"},status=status.HTTP_400_BAD_REQUEST)
         user = User.objects.filter(useruniquename=username).first()
@@ -76,10 +79,14 @@ class CreateEditDeleteProfileView(APIView):
         if is_profile_user!=None:
             return Response({"error":"User Already have Profile"},status=status.HTTP_400_BAD_REQUEST)
         else:
-            profile = UserProfile.objects.create(user=user,intrests=intrests,bio=bio)
-            profile.save()
-            
-            return Response({"profile":"Profile Created"},status=status.HTTP_200_OK)
+            if(image_url==None):
+                profile = UserProfile.objects.create(user=user,intrests=intrests,bio=bio)
+                profile.save()
+                return Response({"profile":"Profile Created"},status=status.HTTP_200_OK)
+            if (image_url!=None):
+                profile = UserProfile.objects.create(user=user,intrests=intrests,bio=bio,user_image=image_url)
+                profile.save()
+                return Response({"profile":"Profile Created"},status=status.HTTP_200_OK)
         
     
     def put(self, request):
@@ -90,6 +97,8 @@ class CreateEditDeleteProfileView(APIView):
         if image==None and interests==None and bio==None:
             return Response({"Error":"No Attribute Provided"},status=status.HTTP_400_BAD_REQUEST)
         profile = UserProfile.objects.get(uuid=uuid)
+        if(profile==None):
+            return Response({"Error":"Profile Not Found"},status=status.HTTP_404_NOT_FOUND)
         if profile !=None:
             if interests != None and bio != None and image == None:
                 # Case 1: interests is not None, bio is not None, and image is None
@@ -101,7 +110,8 @@ class CreateEditDeleteProfileView(APIView):
             elif interests != None and bio == None and image != None:
                 # Case 2: interests is not None, bio is None, and image is not None
                 profile.interests = interests
-                if profile.user_image != '':
+                
+                if profile.user_image != None:
                     key = profile.user_image[51::]
                     success, error_message = delete_image_from_s3(bucket_name, key)
                     if success:
@@ -112,6 +122,7 @@ class CreateEditDeleteProfileView(APIView):
                         return Response({"success": "Profile updated"}, status=status.HTTP_200_OK)
                     else:
                         print(f"Failed to delete image: {error_message}")
+                        
                 image_url = upload_image_to_s3(image)
                 profile.user_image = image_url
                 profile.save()
@@ -120,7 +131,7 @@ class CreateEditDeleteProfileView(APIView):
             elif interests != None and bio != None and image != None:
                 # Case 3: interests is not None, bio is not None, and image is not None
                 profile.interests = interests
-                if profile.user_image != '':
+                if profile.user_image != None:
                     key = profile.user_image[51::]
                     success, error_message = delete_image_from_s3(bucket_name, key)
                     if success:
@@ -140,7 +151,7 @@ class CreateEditDeleteProfileView(APIView):
             elif interests == None and bio != None and image != None:
                 # Case 4: interests is None, bio is not None, and image is not None
                 profile.bio = bio
-                if profile.user_image != '':
+                if profile.user_image != None:
                     key = profile.user_image[51::]
                     success, error_message = delete_image_from_s3(bucket_name, key)
                     if success:
