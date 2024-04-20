@@ -6,6 +6,7 @@ import uuid
 class Link(models.Model):
     uuid = models.UUIDField(default=uuid.uuid4, editable=True)
     user    = models.ForeignKey(User, on_delete=models.CASCADE)
+    title   = models.CharField(max_length=20, null=True, blank=True)
     description  = models.CharField(max_length=70)
     url          = models.URLField()
     no_of_clicks = models.IntegerField(default=0)

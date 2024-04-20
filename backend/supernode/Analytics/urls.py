@@ -5,4 +5,4 @@ from .views import *
 urlpatterns = [
     path('linkclick/<str:id>', LinkClick.as_view()), 
     path('linklistclick/<str:id>', LinkGroupClick.as_view()),
-]
+]   
