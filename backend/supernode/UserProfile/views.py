@@ -59,15 +59,19 @@ class GetUserProfileView(APIView):
 class CreateEditDeleteProfileView(APIView):
     
     def post(self, request):
+        jwt      = request.data.get('jwt')
         username = request.data.get('username',None)
         image    = request.data.get('image',None)
         intrests = request.data.get('intrests',None)
         bio      = request.data.get('bio',None)
+        userInstance = get_user_from_token(jwt)
         if username == None:
             return Response({"error":"Username not provided"},status=status.HTTP_400_BAD_REQUEST)
         user = User.objects.filter(useruniquename=username).first()
         if user == None:
             return Response({"error":"User Not Found"},status=status.HTTP_404_NOT_FOUND)
+        if userInstance != user:
+            return Response({"error":"Unauthorized"},status=status.HTTP_401_UNAUTHORIZED)
         is_profile_user = UserProfile.objects.filter(user=user).first()
         if is_profile_user!=None:
             return Response({"error":"User Already have Profile"},status=status.HTTP_400_BAD_REQUEST)

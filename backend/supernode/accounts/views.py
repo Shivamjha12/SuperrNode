@@ -86,8 +86,8 @@ class register(APIView):
         USER = User.objects.filter(email=userEmail).first()
         USER.is_active = False
         USER.save()
-        profile = UserProfile.objects.create(user=USER)
-        profile.save()
+        # profile = UserProfile.objects.create(user=USER)
+        # profile.save()
         linklistobj = LinkGroup.objects.create(user=USER,name="Home",description=USER.name)
         linklistobj.save()
         #1 we need to generate a token and mail content for the user
