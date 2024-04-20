@@ -5,7 +5,7 @@ class LinkModelSerializer(serializers.ModelSerializer):
     user = serializers.CharField(source='user.email')
     class Meta:
         model = Link
-        fields = ('uuid','description','user','url','no_of_clicks','uniqueName')
+        fields = ('uuid','title','description','user','url','no_of_clicks','uniqueName')
 
 class LinkGroupModelSerializer(serializers.ModelSerializer):
     # username = serializers.CharField(source="user.useruniquename")

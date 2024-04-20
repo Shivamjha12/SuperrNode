@@ -132,7 +132,7 @@ class UserLinkView(APIView):
         user = User.objects.filter(useruniquename=username).first()
         if user == None:
             return Response({"error":"USER NOT FOUND"}, status=status.HTTP_400_BAD_REQUEST)
-        userLinks = Link.objects.filter(user=user)
+        userLinks = Link.objects.filter(user=user,is_in_linkGroup=False)
         if userLinks==None:
             return Response({"error":"LINKS NOT FOUND"}, status=status.HTTP_400_BAD_REQUEST)
         userLinksData = LinkModelSerializer(userLinks,many=True)
