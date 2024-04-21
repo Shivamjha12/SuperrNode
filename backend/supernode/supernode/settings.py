@@ -141,8 +141,14 @@ AUTH_USER_MODEL = 'accounts.User'
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
 #cors settings
-CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
+
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+    'https://superrnode.onrender.com',
+]
 
 
 
