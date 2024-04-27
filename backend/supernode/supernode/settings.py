@@ -150,6 +150,7 @@ CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
     'https://superrnode.onrender.com',
     'https://superrnode-frontend.vercel.app',
+    'https://www.superrnode.tech/',
     
 ]
 
