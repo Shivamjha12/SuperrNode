@@ -86,7 +86,7 @@ DATABASES = {
         'NAME': os.environ.get('DB_NAME'),  # Database name
         'USER': os.environ.get('DB_USER'),  # Database username
         'PASSWORD':  os.environ.get('DATABASE_PASSWORD'),  # Database password os.environ.get('DATABASE_PASSWORD')
-        'HOST': 'dpg-cnu2ncicn0vc739esri0-a.singapore-postgres.render.com',  # Hostname
+        'HOST': 'dpg-cvnlhh3e5dus738kvrn0-a.singapore-postgres.render.com',  # Hostname
         'PORT': '5432',           
     }
 }
